@@ -4,7 +4,7 @@
 * 链式操作ORM
 * M层与项目分离，可服务于多个项目
 
-##目录 
+## 目录 
     config    配置目录
         └config.php    主配置文件
         
@@ -33,5 +33,5 @@
         
     bootstrap.php    引导文件
 
-##持续更新中...
+## 持续更新中...
 Email: leneyhomon@gmail.com
