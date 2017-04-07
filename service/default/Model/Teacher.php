@@ -1,6 +1,6 @@
 <?php
 
-class Model_Teacher extends Db_Model
+class Model_Teacher extends Model_Base
 {
     public function __construct()
     {

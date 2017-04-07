@@ -34,4 +34,6 @@
     bootstrap.php    引导文件
 
 ## 持续更新中...
+* 2017/4/7 优化SQL语句构造方式
+ 
 Email: leneyhomon@gmail.com
