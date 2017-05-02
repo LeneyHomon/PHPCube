@@ -35,11 +35,12 @@ class Db_Base
         $this->_dbPwd  = $server['pwd'];
     }
 
+    //todo:多个数据库终端连接
     public static function getInstance($dbName)
     {
         $server = Config::get('db.mysql');
 
-        if (empty(self::$_instances[$dbName])) {
+        if(empty(self::$_instances[$dbName])) {
             self::$_instances[$dbName] = new self($dbName, $server);
         }
 
@@ -48,7 +49,7 @@ class Db_Base
 
     protected function getDb()
     {
-        if (empty($this->_db)) {
+        if(empty($this->_db)) {
             $dsn     = "mysql:host={$this->_dbHost};port={$this->_dbPort};dbname={$this->_dbName}";
             $options = array(
                 PDO::ATTR_TIMEOUT            => 10,
@@ -57,10 +58,8 @@ class Db_Base
             );
             try {
                 $this->_db = new PDO($dsn, $this->_dbUser, $this->_dbPwd, $options);
-            } catch (PDOException $e) {
-                echo 'DB error ' . $e->getMessage() . PHP_EOL;
-                $pdo = null;
-                exit;
+            } catch(PDOException $e) {
+                Exception_Base::error('DB error ' . $e->getMessage());
             }
         }
 
@@ -72,7 +71,7 @@ class Db_Base
         $db           = $this->getDb();
         $this->_error = '';
         $stmt         = $db->prepare($sql);
-        if ($stmt === false) {
+        if($stmt === false) {
             return false;
         }
         $this->_stmt = $stmt;
@@ -83,18 +82,18 @@ class Db_Base
     private function _getStmtError()
     {
         $error = $this->_stmt->errorInfo();
-        if (!is_null($error[1])) {
+        if(!is_null($error[1])) {
             $this->_error = implode('\t', $error);
         }
     }
 
     public function bind($bind)
     {
-        if (!is_array($bind)) {
+        if(!is_array($bind)) {
             $bind = array();
         }
-        foreach ($bind as $k => $v) {
-            if (is_array($v)) {
+        foreach($bind as $k => $v) {
+            if(is_array($v)) {
                 $this->_stmt->bindValue($k, $v['value'], $v['type']);
             } else {
                 $this->_stmt->bindValue($k, $v);
@@ -106,10 +105,10 @@ class Db_Base
 
     public function find($sql, $bind = array(), $fetchStyle = PDO::FETCH_ASSOC)
     {
-        if (!$this->_prepare($sql)) {
+        if(!$this->_prepare($sql)) {
             return false;
         }
-        if (!$this->bind($bind)) {
+        if(!$this->bind($bind)) {
             $this->_getStmtError();
 
             return false;
@@ -122,10 +121,10 @@ class Db_Base
 
     public function select($sql, $bind = array(), $fetchStyle = PDO::FETCH_ASSOC)
     {
-        if (!$this->_prepare($sql)) {
+        if(!$this->_prepare($sql)) {
             return false;
         }
-        if (!$this->bind($bind)) {
+        if(!$this->bind($bind)) {
             $this->_getStmtError();
 
             return false;
@@ -138,10 +137,10 @@ class Db_Base
 
     public function execute($sql, $bind = array())
     {
-        if (!$this->_prepare($sql)) {
+        if(!$this->_prepare($sql)) {
             return false;
         }
-        if (!$this->bind($bind)) {
+        if(!$this->bind($bind)) {
             $this->_getStmtError();
 
             return false;
@@ -184,10 +183,10 @@ class Db_Base
 
     public function close()
     {
-        if ($this->_db) {
+        if($this->_db) {
             $this->_db = null;
         }
-        if ($this->_stmt) {
+        if($this->_stmt) {
             $this->_stmt = null;
         }
     }

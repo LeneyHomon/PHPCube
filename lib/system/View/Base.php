@@ -27,20 +27,15 @@ class View_Base
         if(file_exists($tpl)) {
             include $tpl;
         } else {
+            Exception_Base::error("载入模板文件 {$tpl} 失败：文件不存在");
         }
-        $__content = ob_get_clean();
+        $content = ob_get_clean();
 
         if($mould) {
-            ob_start();
-            ob_implicit_flush(0);
-            if(file_exists($mould)) {
-                include $mould;
-            } else {
-            }
-            $__content = ob_get_clean();
+            $data['__content'] = $content;
+            return $this->display($mould, $data);
         }
 
-        $content = $__content;
         return $content;
     }
 }

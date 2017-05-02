@@ -66,7 +66,7 @@ class Route_Base
         if(file_exists($file)) {
             require_once($file);
         } else {
-            exit();
+            Exception_Base::error("载入控制器 {$class} 失败：未找到该文件");
         }
 
         //实例化控制器，访问方法

@@ -54,6 +54,20 @@ class Model_Base
     }
 
     /**
+     * 在需要多表操作时定义表
+     *
+     * @param $table
+     *
+     * @return $this
+     */
+    protected function table($table)
+    {
+        $this->_table = $table;
+
+        return $this;
+    }
+
+    /**
      * 存入需要查询的字段
      *
      * @param $fields
@@ -124,11 +138,6 @@ class Model_Base
         return $this;
     }
 
-    /*
-     *  $data = array(
-     *      'name' => array('One', 'Two', 'Three')
-     *  );
-     */
     /**
      * 执行多次INSERT
      *
@@ -148,6 +157,10 @@ class Model_Base
 
         $this->_lastSql = $this->_sqlHelper->insert($this->_data, $max);
 
+        if($this->_debug) {
+            return $this->_lastSql;
+        }
+
         if($this->_execute()) {
             return (int)self::$_lastId;
         } else {
@@ -164,6 +177,10 @@ class Model_Base
     {
         $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->insert($this->_data);
+
+        if($this->_debug) {
+            return $this->_lastSql;
+        }
 
         if($this->_execute()) {
             return (int)self::$_lastId;
@@ -227,7 +244,11 @@ class Model_Base
         $this->_lastSql = $this->_sqlHelper->select();
         $this->_one = true;
 
-        return (int)$this->_query()['C'];
+        if($this->_debug) {
+            return $this->_lastSql;
+        } else {
+            return (int)$this->_query()['C'];
+        }
     }
 
     protected function execute($sql)
