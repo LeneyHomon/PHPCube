@@ -81,7 +81,7 @@ class Db_SQL implements Db_SQLInterface
             }
         }
 
-        $keyStr   = implode(',', $tmpKey);
+        $keyStr = '(' . implode(',', $tmpKey) . ')';
 
         if($multiple) {
             $tmpValueStr = array();
@@ -98,10 +98,10 @@ class Db_SQL implements Db_SQLInterface
             }
             $valueStr = implode(',', $tmpValueStr);
         } else {
-            $valueStr = implode(',', $tmpValue);
+            $valueStr = '(' . implode(',', $tmpValue) . ')';
         }
 
-        $insertSql = "({$keyStr}) VALUES ({$valueStr})";
+        $insertSql = "{$keyStr} VALUES {$valueStr}";
 
         $sql = "INSERT INTO `{$this->_table}` {$insertSql} ";
 
@@ -113,6 +113,9 @@ class Db_SQL implements Db_SQLInterface
         $attribute = $this->_attribute;
         if(!isset($attribute['field'])) {
             $attribute['field'] = '*';
+        }
+        if(!isset($attribute['where'])) {
+            $attribute['where'] = '';
         }
 
         $sql = "SELECT {$attribute['field']} FROM `{$this->_table}` {$attribute['where']} ";

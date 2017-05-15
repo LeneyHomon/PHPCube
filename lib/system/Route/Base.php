@@ -17,6 +17,9 @@ class Route_Base
     //路由启动
     public static function on()
     {
+        if(!isset($_SERVER['REQUEST_URI'])) {
+            return;
+        }
         $uri = $_SERVER['REQUEST_URI'];
         //去除get串
         $uri = explode('?', $uri)[0];

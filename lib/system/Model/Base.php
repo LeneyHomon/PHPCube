@@ -138,6 +138,11 @@ class Model_Base
         return $this;
     }
 
+    /*
+     *  $data = array(
+     *      'name' => array('One', 'Two', 'Three')
+     *  );
+     */
     /**
      * 执行多次INSERT
      *
@@ -152,6 +157,9 @@ class Model_Base
             if(count($value) > $max) {
                 $max = count($value);
             }
+        }
+        if($max == 1) {
+            $max = false;
         }
         $this->_sqlHelper->setTable($this->_table);
 
@@ -192,7 +200,7 @@ class Model_Base
     /**
      * 执行SELECT查询
      *
-     * @return string
+     * @return array
      */
     protected function select()
     {
@@ -214,7 +222,7 @@ class Model_Base
     /**
      * 执行UPDATE查询
      *
-     * @return string
+     * @return string|boolean
      */
     protected function update()
     {

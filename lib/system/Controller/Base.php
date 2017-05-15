@@ -52,20 +52,13 @@ class Controller_Base
      * 显示视图
      *
      * @param $file string 相对于view文件夹的相对路径
+     * @param $mould boolean 是否使用模板
      */
-    protected function _view($file)
+    protected function _view($file, $mould = true)
     {
-        echo $this->_viewBase($file);
-    }
-
-    /**
-     * 显示单一视图
-     *
-     * @param $file string 相对于view文件夹的相对路径
-     */
-    protected function _viewSingle($file)
-    {
-        $this->_useMould = false;
+        if($mould === false) {
+            $this->_useMould = false;
+        }
         echo $this->_viewBase($file);
     }
 
