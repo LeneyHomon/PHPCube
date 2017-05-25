@@ -6,14 +6,6 @@ class Route_Base
     CONST PATH_CONTROLLER = DS . 'application' . DS . 'controller';
     CONST DEFAULT_INDEX = 'index';
 
-    /**
-     * 路由情况
-     * 1、 www.cube.com/     没有指定文件，使用默认访问
-     * 2、 www.cube.com/index    指定控制器文件index，未指定方法，默认访问index方法
-     * 3、 www.cube.com/index/index      前者index为控制器文件，后者index为该控制器下的方法
-     * 4、 www.cube.com/admin/index      admin是子目录，index是其子目录下的控制器文件，不允许这种情况出现
-     * 5、 www.cube.com/admin/index/test     admin是子目录，index是其子目录下的控制器文件，test为控制器文件下的方法
-     */
     //路由启动
     public static function on()
     {

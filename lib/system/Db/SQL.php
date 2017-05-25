@@ -146,43 +146,6 @@ class Db_SQL implements Db_SQLInterface
         return $sql;
     }
 
-    /*
-    example 1: `id` <=> '1' AND `name` <=> 'Mr.One'
-        $where_1 = array(
-            'id' => 1,
-            'name' => 'Mr.One',
-        );
-
-    example 2: `id` > '1' AND `name` <=> 'Mr.One'
-        $where_2 = array(
-            'id' => array('>', 1),
-            'name' => 'Mr.One'
-        );
-
-    example 3: （`id` > '1' OR `name` <=> 'Mr.One'） AND `age` > '25'
-        $where_3 = array(
-            array(
-                'id' => array(Db_SQL::CO_GT, 1),
-                'name' => 'Mr.One'
-            ),
-            array(
-                'age' => array(Db_SQL::CO_GT, 25)
-            )
-        );
-
-    example 4: ('id' > '1' OR (`sex` <=> '1' AND `age` > '25')) AND 'name' LIKE 'Mr.%'
-        $where_4 = array(
-            array(
-                '__logic' => Db_SQL:LOGIC_OR,
-                'id' => array(Db_SQL::CO_GT, '1'),
-                array(
-                    'sex' => '1',
-                    'age' => array(Db_SQL::CO_GT, 25)
-                ),
-            ),
-            'name' => array(Db_SQL::CO_LIKE, 'Mr.%')
-        );
-    */
     /**
      * where条件解析
      *

@@ -138,17 +138,12 @@ class Model_Base
         return $this;
     }
 
-    /*
-     *  $data = array(
-     *      'name' => array('One', 'Two', 'Three')
-     *  );
-     */
     /**
      * 执行多次INSERT
      *
      * @return string
      */
-    protected function multinsert()
+    protected function multiInsert()
     {
         $data = $this->_data;
         $max = 0;

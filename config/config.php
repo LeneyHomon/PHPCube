@@ -45,4 +45,17 @@ class Config
 
         return $param;
     }
+
+    /**
+     * 增加配置参数
+     *
+     * @param $array
+     */
+    public static function add($array)
+    {
+        if(empty($array)) {
+            return ;
+        }
+        self::$_param = array_merge(self::$_param, $array);
+    }
 }
