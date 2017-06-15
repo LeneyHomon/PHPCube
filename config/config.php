@@ -58,4 +58,27 @@ class Config
         }
         self::$_param = array_merge(self::$_param, $array);
     }
+
+    /**
+     * 载入配置
+     *
+     * @param $files
+     */
+    public static function loadConfig($files)
+    {
+        if(empty($files)) {
+            return ;
+        }
+
+        if(!is_array($files)) {
+            $files = array($files);
+        }
+
+        foreach($files as $file) {
+            $file = APP_CONF_PATH . DS . $file . PHP_EXT;
+            if(file_exists($file)) {
+                require_once($file);
+            }
+        }
+    }
 }
