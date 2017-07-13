@@ -20,8 +20,6 @@ class Model_Base
 
     //插入、更新数据
     private $_data = array();
-    //需要查询的表
-    private $_table = '';
 
     //是否只查询单条记录
     private $_one = false;
@@ -36,9 +34,9 @@ class Model_Base
 
     public function __construct($dbName, $table)
     {
-        $this->_table     = $table;
         $this->_db        = Db_Base::getInstance($dbName);
         $this->_sqlHelper = Db_SQL::getInstance();
+        $this->_sqlHelper->setTable($table);
     }
 
     /**
@@ -46,9 +44,9 @@ class Model_Base
      *
      * @return $this
      */
-    public function debug()
+    public function debug($open = true)
     {
-        $this->_debug = true;
+        $this->_debug = $open ? true : false;
 
         return $this;
     }
@@ -62,7 +60,7 @@ class Model_Base
      */
     protected function table($table)
     {
-        $this->_table = $table;
+        $this->_sqlHelper->setTable($table);
 
         return $this;
     }
@@ -156,7 +154,6 @@ class Model_Base
         if($max == 1) {
             $max = false;
         }
-        $this->_sqlHelper->setTable($this->_table);
 
         $this->_lastSql = $this->_sqlHelper->insert($this->_data, $max);
 
@@ -178,7 +175,6 @@ class Model_Base
      */
     protected function insert()
     {
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->insert($this->_data);
 
         if($this->_debug) {
@@ -199,7 +195,6 @@ class Model_Base
      */
     protected function select()
     {
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->select();
 
         return $this->_query();
@@ -207,7 +202,6 @@ class Model_Base
 
     protected function find()
     {
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->select();
         $this->_one = true;
 
@@ -221,7 +215,6 @@ class Model_Base
      */
     protected function update()
     {
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->update($this->_data);
 
         return $this->_execute();
@@ -234,7 +227,6 @@ class Model_Base
      */
     protected function delete()
     {
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->delete();
 
         return $this->_execute();
@@ -243,7 +235,6 @@ class Model_Base
     protected function count()
     {
         $this->_sqlHelper->field("COUNT(1) AS C");
-        $this->_sqlHelper->setTable($this->_table);
         $this->_lastSql = $this->_sqlHelper->select();
         $this->_one = true;
 
