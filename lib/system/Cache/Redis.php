@@ -80,6 +80,7 @@ class Cache_Redis
         }
 
         $data = $this->_redis->get(md5($key));
+        $data = json_decode($data, true);
         return $data;
     }
 
